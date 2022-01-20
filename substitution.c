@@ -78,31 +78,34 @@ int key_validation(char* k, int argc)
             return 3;
     }
 
-    // Key must only contain unique letters
-    // Pointer to a string literal to store all letters of the alphabet
-    char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    // Array contain all the letters of the alphabet
+    char alphabet[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}
 
-    // Iterate over each character in the alphabet string
+    // Variable count, if count reachs 26, that means key is valid
+    int count = 0;
+
+    // Iterate over each character in the key
     for (int i = 0; i < 26; i++)
     {
-        // Variable count, if count is above 1, that means it has found a repeated character
-        int count = 0;
-
-        // Iterate over each character in the key
+        // Iterate over each element in alphabet array
         for (int j = 0; j < 26; j++)
         {
-            // Compare alphabet[i'th] character against k[j'th] character
-            if (alphabet[i] == toupper(k[j]))
+            // Compare if key[i] character iguals to alphabet[j] character, if yes
+            if (toupper(k[i]) == alphabet[j])
+            {
+                // Reassign the element[j] of the alphabet array to a "?" or any chracter other than the letters of the alphabet
+                alphabet[j] = '?';
                 count++;
+            }
 
-            // If key has repeated characters, return 4
-            if (count > 1)
-                return 4;
+            // If key doesn't have repeated characters, return 0, valid key
+            if (count == 26)
+                return 0;
         }
     }
 
-    // Key is valid, return 0
-    return 0;
+    // Key has repeated characters, invalid key
+    return 4;
 }
 
 char* encrypt(char* text, char* k)
